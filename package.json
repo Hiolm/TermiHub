@@ -1,0 +1,54 @@
+{
+  "name": "termihub",
+  "productName": "TermiHub",
+  "version": "1.0.0",
+  "description": "TermiHub — VS Code 风格：左侧文件预览，右侧终端",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "start:full": "electron .",
+    "pack": "electron-builder --win --x64 --dir",
+    "dist": "electron-builder --win --x64",
+    "electron:repair": "node scripts/ensure-electron.js",
+    "postinstall": "node scripts/ensure-electron.js && node scripts/patch-node-gyp-vs2026.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^3.7.1",
+    "electron-builder": "^26.0.0",
+    "electron": "^33.2.1"
+  },
+  "dependencies": {
+    "@vscode/codicons": "^0.0.36",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/addon-web-links": "^0.12.0",
+    "@xterm/xterm": "^6.0.0",
+    "node-pty": "^1.1.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["electron"]
+  },
+  "build": {
+    "appId": "com.termihub.app",
+    "productName": "TermiHub",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "ico/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

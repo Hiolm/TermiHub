@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TermiHub</title>
+    <link rel="stylesheet" href="../../node_modules/@vscode/codicons/dist/codicon.css" />
+    <link rel="stylesheet" href="../../node_modules/@xterm/xterm/css/xterm.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <span class="app-logo codicon codicon-terminal"></span>
+      <span class="app-name">TermiHub</span>
+      <div class="header-actions">
+        <button type="button" id="btn-open-folder" class="btn">
+          <span class="codicon codicon-folder-opened"></span>
+          <span>打开文件夹</span>
+        </button>
+      </div>
+      <div class="window-controls" aria-label="窗口">
+        <button type="button" id="btn-win-min" class="win-btn">
+          <span class="codicon codicon-chrome-minimize"></span>
+        </button>
+        <button type="button" id="btn-win-max" class="win-btn">
+          <span class="codicon codicon-chrome-maximize" id="icon-win-max"></span>
+        </button>
+        <button type="button" id="btn-win-close" class="win-btn win-close">
+          <span class="codicon codicon-chrome-close"></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <span class="codicon codicon-files"></span>
+          <span>资源管理器</span>
+        </div>
+        <div class="file-tree" id="file-tree">
+          <div class="empty-hint">请打开文件夹以浏览文件</div>
+        </div>
+        <div class="sidebar-bottom" id="sidebar-bottom">
+          <div class="side-zone side-zone--commands" id="zone-commands">
+            <div class="zone-header">
+              <span class="codicon codicon-zap"></span>
+              <span>快捷命令</span>
+            </div>
+            <div class="zone-scroll">
+              <div id="quick-commands-list" class="quick-commands-list"></div>
+            </div>
+            <div class="zone-footer">
+              <input type="text" id="quick-cmd-input" class="zone-input" placeholder="输入命令，点击添加保存" />
+              <button type="button" id="quick-cmd-add" class="btn-zone">添加</button>
+            </div>
+          </div>
+          <div class="splitter splitter-v" id="splitter-v" role="separator" aria-orientation="vertical"></div>
+          <div class="side-zone side-zone--terminal" id="zone-terminal">
+            <div class="zone-header">
+              <span class="codicon codicon-tools"></span>
+              <span>终端管理</span>
+            </div>
+            <div class="zone-scroll terminal-manage-body">
+              <div class="tm-status" id="tm-status">工作目录：未打开文件夹</div>
+              <div class="tm-actions">
+                <button type="button" id="tm-clear" class="btn-zone">清屏</button>
+                <button type="button" id="tm-restart" class="btn-zone">重启 Shell</button>
+                <button type="button" id="tm-install" class="btn-zone">安装依赖</button>
+                <button type="button" id="tm-clean-deps" class="btn-zone">清理依赖</button>
+                <button type="button" id="tm-open-cwd" class="btn-zone">打开工作目录</button>
+              </div>
+              <div class="tm-terminals">
+                <div class="tm-terminals-header">
+                  <span class="codicon codicon-terminal"></span>
+                  <span>终端列表</span>
+                  <button type="button" id="tm-new-terminal" class="btn-zone tm-new-btn">
+                    <span class="codicon codicon-add"></span>
+                  </button>
+                </div>
+                <div id="tm-terminal-list" class="tm-terminal-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="splitter" id="splitter" role="separator" aria-orientation="vertical"></div>
+
+      <section class="terminal-panel">
+        <div class="terminal-header">
+          <span class="codicon codicon-terminal"></span>
+          <span>终端</span>
+        </div>
+        <div id="terminal-container"></div>
+      </section>
+    </main>
+
+    <!-- xterm 浏览器 bundle：在渲染进程直接使用，避免跨 contextBridge 传递 class/实例 -->
+    <script src="../../node_modules/@xterm/xterm/lib/xterm.js"></script>
+    <script src="../../node_modules/@xterm/addon-fit/lib/addon-fit.js"></script>
+    <script src="../../node_modules/@xterm/addon-web-links/lib/addon-web-links.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
